@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07131d">
+<title>B00mrang Tracker // UNSC Intelligence</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+:root{
+ --bg:#06111a;--panel:#0a1c28;--panel2:#0d2431;--line:#1b4657;--cyan:#7ed9e8;
+ --cyan2:#36aabd;--green:#9acb78;--amber:#e5b96a;--red:#e17b70;--muted:#7895a2;
+ --white:#d9edf0;--mono:'IBM Plex Mono',monospace;--display:'Barlow Condensed',sans-serif;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 50% -20%,#153747 0%,#091923 42%,var(--bg) 78%);color:var(--white);font-family:var(--mono);font-size:12px;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(126,217,232,.12) 4px);z-index:5}
+a{color:var(--cyan);text-decoration:none}button{font:inherit}
+.shell{max-width:1440px;margin:auto;padding:22px 28px 40px;position:relative}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);padding:5px 0 17px}
+.brand{display:flex;align-items:center;gap:13px}.insignia{width:42px;height:42px;border:1px solid var(--cyan2);display:grid;place-items:center;clip-path:polygon(50% 0,94% 20%,94% 80%,50% 100%,6% 80%,6% 20%);background:#0d2a37;color:var(--cyan);font-family:var(--display);font-weight:800;font-size:20px}
+.brand h1{font:700 25px var(--display);letter-spacing:2.2px;margin:0;color:#e7f7f8}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.6px;margin-top:3px}
+.top-right{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:10px;letter-spacing:1px}.status{color:var(--green);display:flex;align-items:center;gap:7px}.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green)}
+.nav{display:flex;gap:22px;padding:14px 0 18px;border-bottom:1px solid rgba(27,70,87,.65);overflow:auto;white-space:nowrap}.nav a{font-size:10px;letter-spacing:1.2px;color:var(--muted)}.nav a:first-child{color:var(--cyan)}
+.eyebrow{font-size:9px;letter-spacing:2px;color:var(--cyan2);text-transform:uppercase}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:25px 0 12px}.section-head h2{font:600 20px var(--display);letter-spacing:1.5px;margin:4px 0 0;text-transform:uppercase}.section-head .right-note{font-size:9px;color:var(--muted);text-align:right}
+.grid{display:grid;gap:12px}.hero-grid{grid-template-columns:1.55fr 1fr}.panel{background:linear-gradient(145deg,rgba(13,36,49,.96),rgba(7,23,33,.97));border:1px solid var(--line);position:relative;overflow:hidden}.panel:before{content:"";position:absolute;top:0;left:0;width:38px;height:2px;background:var(--cyan)}.panel-inner{padding:17px}
+.hero{min-height:280px;background:linear-gradient(115deg,rgba(10,31,43,.98),rgba(7,20,29,.96)),radial-gradient(circle at 80% 30%,#174454,transparent 45%)}
+.hero:after{content:"";position:absolute;right:-55px;top:12px;width:280px;height:280px;border:1px solid rgba(126,217,232,.12);border-radius:50%;box-shadow:0 0 0 22px rgba(126,217,232,.025),0 0 0 50px rgba(126,217,232,.02)}
+.hero-content{position:relative;z-index:1;max-width:680px}.hero h2{font:700 clamp(32px,5vw,55px)/.95 var(--display);letter-spacing:1px;margin:13px 0 8px;text-transform:uppercase}.hero h2 span{color:var(--cyan)}
+.subline{color:var(--muted);font-size:10px;line-height:1.8;max-width:550px}.prob-row{display:flex;align-items:end;gap:16px;margin-top:23px}.prob{font:700 54px/.9 var(--display);color:var(--green);letter-spacing:-1px}.prob small{font:500 12px var(--mono);color:var(--muted)}.confidence{padding:5px 8px;border:1px solid rgba(154,203,120,.35);color:var(--green);font-size:9px;letter-spacing:1px;margin-bottom:4px}
+.range{height:5px;background:#173746;margin-top:14px;max-width:470px}.range span{display:block;height:100%;width:62%;background:linear-gradient(90deg,var(--cyan2),var(--green));box-shadow:0 0 10px rgba(126,217,232,.4)}
+.hero-foot{display:flex;gap:26px;margin-top:18px;color:var(--muted);font-size:9px;letter-spacing:.7px}.hero-foot b{display:block;color:var(--white);font:600 15px var(--display);margin-top:4px}
+.side-stack{display:grid;gap:12px;grid-template-rows:1fr 1fr}.metric{display:flex;justify-content:space-between;align-items:center}.metric strong{font:600 29px var(--display);color:var(--white)}.metric .unit{font-size:9px;color:var(--muted)}.metric-note{color:var(--muted);font-size:9px;margin-top:5px}.metric-accent{color:var(--amber)!important}
+.stats{grid-template-columns:repeat(4,1fr)}.stat{min-height:100px}.stat .value{font:600 30px var(--display);margin:9px 0 3px}.stat .label{font-size:9px;color:var(--muted);letter-spacing:1px}.stat .delta{font-size:9px;color:var(--green)}
+.mid-grid{grid-template-columns:1.35fr 1fr}.chart-wrap{height:215px;margin-top:8px}.chart-wrap svg{width:100%;height:100%;overflow:visible}.chart-label{fill:#7895a2;font:9px var(--mono)}.chart-grid{stroke:#1b4657;stroke-width:1;stroke-dasharray:3 5}.chart-line{fill:none;stroke:#7ed9e8;stroke-width:2.5}.chart-area{fill:url(#area)}.chart-dot{fill:#9acb78;stroke:#0a1c28;stroke-width:3}
+.legend{display:flex;gap:16px;color:var(--muted);font-size:9px;margin-top:8px}.legend i{display:inline-block;width:7px;height:7px;background:var(--cyan);margin-right:6px}.legend i.amber{background:var(--amber)}
+.signal-list{display:grid;gap:0}.signal{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px 0;border-bottom:1px solid rgba(27,70,87,.55)}.signal:last-child{border:0}.signal b{font:500 14px var(--display);letter-spacing:.5px}.signal small{display:block;color:var(--muted);font-size:9px;margin-top:4px}.tag{font-size:8px;letter-spacing:1px;padding:5px 7px;border:1px solid rgba(126,217,232,.25);color:var(--cyan);height:max-content}.tag.warn{color:var(--amber);border-color:rgba(229,185,106,.3)}.tag.good{color:var(--green);border-color:rgba(154,203,120,.3)}
+.bottom-grid{grid-template-columns:1fr 1fr 1fr}.log-item{padding:11px 0;border-bottom:1px solid rgba(27,70,87,.55)}.log-item:last-child{border:0}.log-item .date{color:var(--cyan2);font-size:9px}.log-item p{margin:5px 0 0;line-height:1.6;color:#b7cbd0;font-size:10px}.log-item p em{font-style:normal;color:var(--amber)}
+.disclaimer{border-top:1px solid var(--line);margin-top:25px;padding-top:13px;display:flex;justify-content:space-between;gap:12px;color:#58727d;font-size:8px;letter-spacing:.7px;line-height:1.7}.disclaimer span:last-child{text-align:right}
+.pill{display:inline-block;padding:4px 7px;border:1px solid #315969;color:var(--muted);font-size:8px;letter-spacing:1px}
+@media(max-width:850px){.hero-grid,.mid-grid{grid-template-columns:1fr}.side-stack{grid-template-columns:1fr 1fr;grid-template-rows:auto}.stats{grid-template-columns:repeat(2,1fr)}.bottom-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.shell{padding:15px 13px 28px}.topbar{align-items:flex-start}.top-right{flex-direction:column;align-items:flex-end;gap:7px}.brand h1{font-size:21px}.nav{gap:16px}.side-stack,.bottom-grid{grid-template-columns:1fr}.hero{min-height:300px}.hero-foot{gap:15px;flex-wrap:wrap}.prob{font-size:48px}.section-head{margin-top:21px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+ <div class="brand"><div class="insignia">B</div><div><h1>B00MRANG TRACKER</h1><small>UNSC // CRASH RELEASE INTELLIGENCE</small></div></div>
+ <div class="top-right"><div class="status"><span class="dot"></span> SYSTEM NOMINAL</div><div>NODE: VOI-07 // <span id="clock">--:--:-- UTC</span></div></div>
+</header>
+<nav class="nav"><a href="#overview">OVERVIEW</a><a href="#forecast">RELEASE FORECAST</a><a href="#signals">INTELLIGENCE SIGNALS</a><a href="#activity">ACTIVITY LOG</a><a href="#method">METHODOLOGY</a></nav>
+
+<div class="section-head" id="overview"><div><div class="eyebrow">Project CRASH / public intelligence terminal</div><h2>Operational overview</h2></div><div class="right-note">DATA MODE: SIMULATED<br>LAST SYNC: DEMO ENVIRONMENT</div></div>
+<div class="grid hero-grid">
+ <section class="panel hero"><div class="panel-inner hero-content">
+  <div class="eyebrow">Primary forecast // next CRASH episode</div>
+  <h2>When will<br><span>B00mrang</span> strike?</h2>
+  <div class="subline">Predictive release intelligence for the CRASH machinima series. Current forecast is populated with illustrative demo values until live channel history is connected.</div>
+  <div class="prob-row"><div class="prob" id="probability">62.4<small>%</small></div><div class="confidence">LOW CONFIDENCE // DEMO</div></div>
+  <div class="range"><span id="probbar"></span></div>
+  <div class="hero-foot"><div>WINDOW<b>30 DAYS</b></div><div>ESTIMATED RELEASE<b id="eta">UNDETERMINED</b></div><div>FORECAST MODEL<b>V0.1 / BASELINE</b></div></div>
+ </div></section>
+ <div class="side-stack">
+  <section class="panel"><div class="panel-inner"><div class="eyebrow">Most recent confirmed episode</div><div class="metric"><strong>DEMO DATA</strong><span class="tag warn">UNVERIFIED</span></div><div class="metric-note">Latest episode date will populate from the CRASH upload archive.</div></div></section>
+  <section class="panel"><div class="panel-inner"><div class="eyebrow">Release interval estimate</div><div class="metric"><strong>â€” â€”</strong><span class="unit">DAYS / MEDIAN</span></div><div class="metric-note">Requires at least two verified episode release dates.</div></div></section>
+ </div>
+</div>
+
+<div class="section-head"><div><div class="eyebrow">Telemetry // key indicators</div><h2>Channel status</h2></div><div class="right-note">PLACEHOLDER VALUES<br>NOT LIVE YOUTUBE DATA</div></div>
+<div class="grid stats">
+ <section class="panel stat"><div class="panel-inner"><div class="label">DAYS SINCE LAST EPISODE</div><div class="value">â€” â€”</div><div class="delta">Awaiting verified date</div></div></section>
+ <section class="panel stat"><div class="panel-inner"><div class="label">EPISODES TRACKED</div><div class="value">â€” â€”</div><div class="delta">Archive not connected</div></div></section>
+ <section class="panel stat"><div class="panel-inner"><div class="label">MEDIAN RELEASE GAP</div><div class="value">â€” â€”</div><div class="delta">Insufficient data</div></div></section>
+ <section class="panel stat"><div class="panel-inner"><div class="label">UPLOAD ACTIVITY</div><div class="value metric-accent">UNKNOWN</div><div class="delta">Channel scan pending</div></div></section>
+</div>
+
+<div class="grid mid-grid" style="margin-top:12px">
+ <section class="panel" id="forecast"><div class="panel-inner">
+  <div class="eyebrow">Historical analysis // illustrative only</div><div class="section-head" style="margin:5px 0 0"><h2>Release interval model</h2><span class="pill">SAMPLE SERIES</span></div>
+  <div class="chart-wrap"><svg viewBox="0 0 600 220" role="img" aria-label="Illustrative release interval chart">
+   <defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7ed9e8" stop-opacity=".22"/><stop offset="1" stop-color="#7ed9e8" stop-opacity="0"/></linearGradient></defs>
+   <line class="chart-grid" x1="42" y1="30" x2="580" y2="30"/><line class="chart-grid" x1="42" y1="75" x2="580" y2="75"/><line class="chart-grid" x1="42" y1="120" x2="580" y2="120"/><line class="chart-grid" x1="42" y1="165" x2="580" y2="165"/>
+   <text class="chart-label" x="5" y="33">180d</text><text class="chart-label" x="5" y="78">120d</text><text class="chart-label" x="12" y="123">60d</text><text class="chart-label" x="20" y="168">0d</text>
+   <path class="chart-area" d="M55 100 L150 70 L245 119 L340 53 L435 91 L530 63 L530 165 L55 165 Z"/>
+   <path class="chart-line" d="M55 100 L150 70 L245 119 L340 53 L435 91 L530 63"/>
+   <circle class="chart-dot" cx="55" cy="100" r="5"/><circle class="chart-dot" cx="150" cy="70" r="5"/><circle class="chart-dot" cx="245" cy="119" r="5"/><circle class="chart-dot" cx="340" cy="53" r="5"/><circle class="chart-dot" cx="435" cy="91" r="5"/><circle class="chart-dot" cx="530" cy="63" r="5"/>
+   <text class="chart-label" x="48" y="190">EP 01</text><text class="chart-label" x="143" y="190">EP 02</text><text class="chart-label" x="238" y="190">EP 03</text><text class="chart-label" x="333" y="190">EP 04</text><text class="chart-label" x="428" y="190">EP 05</text><text class="chart-label" x="523" y="190">EP 06</text>
+  </svg></div><div class="legend"><span><i></i>Days between releases</span><span><i class="amber"></i>Illustrative values</span></div>
+ </div></section>
+ <section class="panel" id="signals"><div class="panel-inner">
+  <div class="eyebrow">Non-essential intelligence // highly classified</div><div class="section-head" style="margin:5px 0 12px"><h2>Intelligence signals</h2><span class="pill">FIELD REPORTS</span></div>
+  <div class="signal-list">
+   <div class="signal"><div><b>FIXER PERSONNEL MORALE</b><small>Unofficial assessment of squad readiness</small></div><span class="tag warn">QUESTIONABLE</span></div>
+   <div class="signal"><div><b>VOI EXCLUSION ZONE ACTIVITY</b><small>Unconfirmed movement detected near the perimeter</small></div><span class="tag">UNVERIFIED</span></div>
+   <div class="signal"><div><b>UNSC PRODUCTION LOGISTICS</b><small>Supply chain status for the next operation</small></div><span class="tag warn">DELAYED</span></div>
+   <div class="signal"><div><b>COVENANT INTERFERENCE INDEX</b><small>Potential external disruption to production</small></div><span class="tag good">NOMINAL</span></div>
+   <div class="signal"><div><b>B00MRANG ACTIVITY MONITOR</b><small>Public creator activity scan</small></div><span class="tag">AWAITING SCAN</span></div>
+  </div>
+ </div></section>
+</div>
+
+<div class="section-head" id="activity"><div><div class="eyebrow">Command feed // recent developments</div><h2>Activity log</h2></div><div class="right-note">AUTOMATED FEED<br>SIMULATED ENTRIES</div></div>
+<div class="grid bottom-grid">
+ <section class="panel"><div class="panel-inner"><div class="eyebrow">Latest transmission</div><div class="log-item"><div class="date">T-MINUS UNKNOWN // PRIORITY 03</div><p>CRASH release archive has not yet been synchronized. Intelligence personnel have been instructed to remain patient. <em>Morale remains low.</em></p></div><div class="log-item"><div class="date">SYSTEM NOTICE // PRIORITY 04</div><p>Predictive model initialized using placeholder values. Forecast confidence is intentionally disabled until verified data is available.</p></div></div></section>
+ <section class="panel"><div class="panel-inner"><div class="eyebrow">Threat assessment</div><div class="metric" style="margin:12px 0"><strong class="metric-accent">MODERATE</strong><span class="tag warn">UNOFFICIAL</span></div><p class="subline">Current threat to the release schedule: an unknown number of production variables, one suspiciously quiet upload queue, and the passage of time.</p><div class="range"><span style="width:43%;background:linear-gradient(90deg,var(--green),var(--amber))"></span></div></div></section>
+ <section class="panel" id="method"><div class="panel-inner"><div class="eyebrow">Forecast methodology</div><div class="log-item"><p><b>01 / COLLECT</b><br>Retrieve verified CRASH episode and channel upload dates.</p></div><div class="log-item"><p><b>02 / ANALYZE</b><br>Calculate release gaps, median cadence and recent activity.</p></div><div class="log-item"><p><b>03 / FORECAST</b><br>Estimate release windows from historical patterns. No certainty implied.</p></div></div></section>
+</div>
+<footer class="disclaimer"><span>UNOFFICIAL FAN PROJECT // NOT AFFILIATED WITH 343 INDUSTRIES, MICROSOFT OR B00MRANG<br>ALL FORECASTS ARE ESTIMATES. DEMO BUILD V0.1</span><span>UNSC HIGH COMMAND<br>PUBLIC TERMINAL // VOI-07</span></footer>
+</div>
+<script>
+function tick(){const d=new Date();document.getElementById('clock').textContent=d.toISOString().slice(11,19)+' UTC'}tick();setInterval(tick,1000);
+</script>
+</body></html>
